@@ -1,0 +1,160 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Chem/Phys Self-Checker</title><style>:root{font-family:system-ui,Arial;color:#18283b;background:#f3f6fb}*{box-sizing:border-box}body{margin:0}header{background:#183455;color:white;padding:22px max(20px,calc((100vw - 900px)/2))}main{max-width:900px;margin:24px auto;padding:0 16px}.card{background:white;border:1px solid #dce3ec;border-radius:14px;padding:22px;margin:16px 0;box-shadow:0 3px 10px #19334b0a}h1{font-size:25px;margin:0}h2{font-size:20px;margin:0 0 12px}.muted{color:#64748b}.tag{font-size:12px;background:#e8eff8;padding:6px 9px;border-radius:30px}input,select{font:inherit;border:1px solid #b8c5d4;border-radius:8px;padding:11px;width:100%;background:white}label{display:block;font-weight:650;margin:12px 0 6px}.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}button{font:inherit;border:0;background:#225da8;color:white;border-radius:8px;padding:11px 16px;cursor:pointer}button:disabled{background:#9aaabd;cursor:not-allowed}.outline{background:#e9eff7;color:#1a406d}.feedback{background:#fff5df;border-left:4px solid #d89119;padding:12px;margin:12px 0;border-radius:5px}.good{background:#e6f7ed;border-color:#299358}.lesson{margin-top:12px;border:1px solid #b6cce8;border-radius:12px;overflow:hidden;background:#f7faff}.lesson-head{background:#183455;color:white;font-weight:800;padding:15px}.lesson-intro{padding:14px 16px;margin:0;background:#e9f2ff}.lesson-step{display:flex;gap:14px;padding:16px;border-top:1px solid #d9e5f4}.lesson-step p{margin:6px 0 0;line-height:1.55}.step-num{flex:0 0 30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#225da8;color:white;font-weight:800}.lesson-finish{padding:14px 16px;background:#e6f7ed;border-top:1px solid #c6e4d2}.steps{background:#eef5ff;padding:15px;border-radius:9px;margin-top:10px}.small{font-size:13px}.bar{height:9px;background:#e4eaf1;border-radius:8px;overflow:hidden}.bar div{height:100%;background:#26885a}.qnav button{padding:9px 12px}.qnav .active{background:#143d71}.qnav .done{background:#238653}#printArea{display:none}.report-status{text-align:center;font-weight:900;font-size:52px;letter-spacing:3px;padding:15px 0}.report-incomplete,.incorrect-text{color:#b00020!important}.report-complete,.correct-text{color:#146c36!important}@media(max-width:600px){.cols{grid-template-columns:1fr}}@media print{header,main{display:none!important}#printArea{display:block!important;font-family:Arial;color:black}#printArea article{break-inside:avoid;border-bottom:1px solid #bbb;padding:10px 0}#printArea .report-status{font-size:54px!important;color:#b00020;print-color-adjust:exact;-webkit-print-color-adjust:exact}#printArea .report-complete{color:#146c36!important}#printArea .incorrect-text{color:#b00020!important}#printArea h1{font-size:22px}#printArea h2{font-size:15px}#printArea p{font-size:12px;margin:5px 0}} </style><style>
+/* Visual-only dark redesign: application logic unchanged. */
+:root{color-scheme:dark;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif!important;color:#e9edf4!important;background:#0c1017!important}
+body{background:radial-gradient(ellipse 70% 28% at 50% 0%,#192334 0%,#0c1017 78%) fixed;color:#e9edf4;line-height:1.55}
+header{background:transparent;border-bottom:1px solid #252d3a;padding-top:35px;padding-bottom:30px}
+header h1{font-size:clamp(23px,4vw,30px);font-weight:750;letter-spacing:-.9px}
+header div{color:#9ba7b8!important;font-size:14px;margin-top:5px;opacity:1!important}
+main{max-width:820px;margin:25px auto 60px}
+.card{background:#151b25;border:1px solid #2b3543;border-radius:17px;padding:25px;margin:14px 0;box-shadow:0 8px 24px #00000016}
+h2{font-weight:720;letter-spacing:-.35px}h3{font-size:17px;margin-bottom:10px}
+.muted,.small.muted{color:#a0adbf}.tag{background:#283244;color:#d8e4f6;border:1px solid #39465a;font-weight:650}
+label{color:#cbd5e3;font-size:14px;font-weight:600}
+input,select{background:#0e141e;color:#f0f4fa;border:1px solid #3b4759;border-radius:10px;padding:12px;min-height:46px;outline:none}
+input::placeholder{color:#8290a3}input:focus,select:focus{border-color:#89a9e7;box-shadow:0 0 0 3px #638fd32c}
+button{background:#8daef1;color:#101a2a;border-radius:10px;font-weight:700;padding:11px 16px;transition:filter .15s ease}button:hover:not(:disabled){filter:brightness(1.09)}button:disabled{background:#303c4b;color:#95a3b5}.outline{background:#283345;color:#e4ebf6;border:1px solid #40506a}
+.qnav{gap:8px}.qnav button{min-width:43px;background:#253043;color:#dbe4f1;border:1px solid #3a495f}.qnav .active{background:#a3bff7;color:#101827;border-color:#a3bff7}.qnav .done{background:#173e33;color:#a6efd0;border-color:#28614e}
+.bar{background:#303a49;height:8px}.bar div{background:#75d6a5}
+#parts section{border-top-color:#323d4d!important}
+.feedback{background:#332819;border:1px solid #795d2d;border-left:4px solid #e9b45b;color:#f7e5c9;border-radius:10px;padding:15px}.feedback p{margin-bottom:0}.good{background:#17352b;border-color:#2f8060;border-left-color:#68d7a1;color:#c3f7dc}
+.lesson{background:#111b29;border:1px solid #40536d;border-radius:14px}.lesson-head{background:#263b58;color:#e9f1ff}.lesson-intro{background:#1b2b40;color:#d9e6f8;line-height:1.6}.lesson-step{border-top:1px solid #304158}.lesson-step strong{color:#f4f7fc}.lesson-step p{color:#c3d0e0}.step-num{background:#8daef1;color:#111b2a}.lesson-finish{background:#1b3c31;border-color:#2d654e;color:#d5f7e6}
+@media(max-width:600px){.card{padding:18px}header{padding-left:20px;padding-right:20px}main{padding:0 12px}.cols{grid-template-columns:1fr}}
+/* Keep printed student reports white, legible, and red/green as before. */
+@media print{:root{color-scheme:light!important;background:white!important;color:black!important}body{background:white!important;color:black!important}#printArea{display:block!important;background:white!important;color:black!important}#printArea *{color:black}#printArea .report-incomplete,#printArea .incorrect-text{color:#b00020!important}#printArea .report-complete,#printArea .correct-text{color:#146c36!important}#printArea .report-status{font-size:54px!important}header,main{display:none!important}}
+</style><style>
+/* Calm, accessible low-glare palette; no checker logic changes. */
+:root{color-scheme:dark!important;background:#20272b!important;color:#e1e5e3!important}
+body{background:#20272b!important;color:#e1e5e3!important;line-height:1.65}
+header{background:#252e32!important;border-bottom:1px solid #455157!important}
+header div,.muted,.small.muted{color:#b9c5c8!important}
+.card{background:#2a3438!important;border-color:#48575c!important;box-shadow:none!important}
+h1,h2,h3,strong{color:#e7eae8}
+.tag{background:#364449!important;color:#d8e4e3!important;border-color:#52656a!important}
+label{color:#d7dfdf!important}
+input,select{background:#222c30!important;color:#f0f2f0!important;border:1.5px solid #71848b!important}
+input::placeholder{color:#b6c3c8!important}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid #b5d8e2!important;outline-offset:3px!important;box-shadow:none!important}
+button{background:#aac8d2!important;color:#17282e!important;transition:none!important}
+button:hover:not(:disabled){filter:brightness(1.05)}
+button:disabled{background:#48565b!important;color:#d0d8d9!important}
+.outline,.qnav button{background:#394a50!important;color:#edf1f0!important;border:1px solid #748b91!important}
+.qnav .active{background:#b4d4df!important;color:#182c33!important;border-color:#b4d4df!important}
+.qnav .done{background:#31564b!important;color:#e3f3ea!important;border-color:#80a89a!important}
+.bar{background:#49585e!important}.bar div{background:#9ccab8!important}
+#parts section{border-top-color:#526268!important}
+.feedback{background:#463d30!important;border-color:#ae9669!important;border-left:5px solid #d8b877!important;color:#f3e6cd!important}
+.good{background:#304b40!important;border-color:#83ae9b!important;border-left-color:#a2d3b7!important;color:#e3f5e9!important}
+.lesson{background:#263238!important;border-color:#6c8790!important}
+.lesson-head{background:#374b53!important;color:#f1f5f4!important}
+.lesson-intro{background:#304149!important;color:#e1ecee!important}
+.lesson-step{border-top-color:#52676d!important}
+.lesson-step strong{color:#f0f3f1!important}.lesson-step p{color:#d4e1e2!important}
+.step-num{background:#b1d0d9!important;color:#1c3036!important}
+.lesson-finish{background:#345044!important;border-color:#7da08c!important;color:#e4f4e9!important}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+/* Paper reports remain high-contrast, white, with red incorrect entries. */
+@media print{:root{color-scheme:light!important;background:white!important;color:black!important}body{background:white!important;color:black!important}#printArea,#printArea *{background:white!important;color:black!important}#printArea .report-incomplete,#printArea .incorrect-text{color:#b00020!important}#printArea .report-complete,#printArea .correct-text{color:#146c36!important}}
+</style><style>
+/* Activity title: prominent but soft, accessible accent. */
+header .activity-title{font-size:clamp(21px,3.8vw,28px)!important;font-weight:800!important;line-height:1.25;letter-spacing:-.35px;margin-top:12px!important;color:#b7d8d0!important;opacity:1!important}
+</style></head><body><header><h1>Chem/Phys Self-Checker</h1><div class="activity-title">Distance vs. Displacement · Two Worksheets</div></header><main><div class="card"><div class="row" style="justify-content:space-between"><strong>Overall progress</strong><span id="progressText"></span></div><div class="bar" style="margin-top:10px"><div id="progressBar" style="width:0%"></div></div><p class="small muted">Work on your paper first. Enter your final answer for each part. Incorrect checks are recorded; hints become more detailed after each attempt.</p><label for="student">Student name (for PDF only)</label><input id="student" placeholder="Enter before downloading your report" autocomplete="off"><div class="row" style="margin-top:14px"><button id="report" class="outline">Print / Save Report as PDF</button><span class="small muted" id="reportStatus"></span></div></div><div class="card"><label for="worksheet">Choose worksheet</label><select id="worksheet"><option value="0">Worksheet 1 — Exercises: Distance vs. Displacement (8 questions)</option><option value="1">Worksheet 2 — Displacement (Question 3, parts a–i)</option></select><p class="small muted">The first two written-response questions on Worksheet 2 are excluded.</p><div class="row qnav" id="nav"></div></div><div class="card"><div class="row" style="justify-content:space-between"><h2 id="qtitle"></h2><span class="tag" id="qstatus"></span></div><p class="small muted">Use Question <strong id="questionNumber"></strong> on your paper. Enter only your final answers below. Keep your calculations on your worksheet.</p><div id="parts"></div><div class="row" style="margin-top:16px"><button id="prev" class="outline">← Previous</button><button id="next" class="outline">Next →</button></div></div><p class="small muted">Progress is stored only in this browser. Clearing site data or switching devices may erase it.</p></main><section id="printArea"></section><script>
+const questions=[
+{prompt:'Unicorn: runs from A to B to C to D.',diagram:'Positions: D = −350 m, A = 0 m, C = +400 m, B = +600 m. Path: A → B → C → D.',moves:[600,-200,-750],dist:1550,disp:-350,unit:'m',explain:'From A to B: 400 + 200 = 600 m right. From B to C: 200 m left. From C to D: 400 + 350 = 750 m left. Distance = 600 + 200 + 750 = 1550 m. Displacement = final (−350) − initial (0) = −350 m, or 350 m left.'},
+{prompt:'Woman: walks from A to B and then to C.',diagram:'Number line: C = −25 m, A = −5 m, B = +10 m. Path: A → B → C.',moves:[15,-35],dist:50,disp:-20,unit:'m',explain:'A to B: 10 − (−5) = 15 m. B to C: 10 − (−25) = 35 m. Distance = 15 + 35 = 50 m. Displacement = −25 − (−5) = −20 m, or 20 m left.'},
+{prompt:'Richie walks 250 m north and then 75 m south.',diagram:'North is positive; south is negative.',moves:[250,-75],dist:325,disp:175,unit:'m',explain:'Distance = 250 + 75 = 325 m. Displacement = +250 − 75 = +175 m (north).'},
+{prompt:'Sandra drives 45 km west, then 110 m east.',diagram:'Watch the units: 45 km = 45,000 m. East is positive; west is negative.',moves:[-45000,110],dist:45110,disp:-44890,unit:'m',explain:'Convert 45 km to 45,000 m. Distance = 45,000 + 110 = 45,110 m. Displacement = −45,000 + 110 = −44,890 m, or 44,890 m west. Equivalent km answers are accepted.'},
+{prompt:'Boy runs from A to B to C to D.',diagram:'Number line: A = −5 m, B = +10 m, C = 0 m, D = +5 m. Path: A → B → C → D.',moves:[15,-10,5],dist:30,disp:10,unit:'m',explain:'A to B = 15 m, B to C = 10 m, C to D = 5 m. Distance = 15 + 10 + 5 = 30 m. Displacement = 5 − (−5) = +10 m (right).'},
+{prompt:'A sprinter completes a straight 100 m dash.',diagram:'Assume the sprinter runs straight from start to finish.',moves:[100],dist:100,disp:100,unit:'m',explain:'Distance = 100 m along the track. Displacement = 100 m from start to finish in the direction of the race.'},
+{prompt:'Teacher walks once around a rectangular classroom, returning to the starting point.',diagram:'Rectangle: 8.0 m wide and 10.5 m long. Start and end at the same corner.',moves:[8,10.5,8,10.5],dist:37,disp:0,unit:'m',explain:'Distance = 8 + 10.5 + 8 + 10.5 = 37 m. Displacement = 0 m because the teacher returns to the starting point.'},
+{prompt:'Soccer team runs five complete laps around a 440 m track.',diagram:'Each lap = 440 m; five complete laps return to the start.',moves:[440,440,440,440,440],dist:2200,disp:0,unit:'m',explain:'Distance = 5 × 440 = 2200 m. Displacement = 0 m because they finish at their starting point.'}
+];
+const secondMoves=[
+[[50,0],[-25,0],[-10,0],[35,0]],
+[[0,10],[0,5],[0,-23],[0,8]],
+[[15,0],[3,0],[0,-13],[-4,0],[0,7],[-6,0],[0,6]],
+[[20,0],[0,15],[-12,0],[0,-15],[18,0],[0,10],[0,-10]],
+[[0,25],[18,0],[0,-10],[-18,0],[0,12],[12,0],[-12,0]],
+[[-30,0],[0,-20],[15,0],[0,35],[-5,0],[0,-15],[20,0]],
+[[40,0],[0,12],[-25,0],[0,-18],[8,0],[0,16],[-8,0]],
+[[0,35],[-22,0],[0,-15],[30,0],[0,5],[-8,0],[0,-10]],
+[[28,0],[0,-25],[-16,0],[0,40],[6,0],[0,-8],[-18,0]]
+];
+const firstCount=questions.length;
+secondMoves.forEach((vectors,j)=>{const dx=vectors.reduce((a,v)=>a+v[0],0),dy=vectors.reduce((a,v)=>a+v[1],0),dist=vectors.reduce((a,v)=>a+Math.abs(v[0])+Math.abs(v[1]),0);questions.push({worksheet:1,letter:String.fromCharCode(97+j),vectors,dx,dy,dist,unit:'m',disp:0})});
+const KEY='chem-phys-two-worksheets-v1';let data;try{data=JSON.parse(localStorage.getItem(KEY))||{}}catch{data={}};data.items??=[];while(data.items.length<questions.length)data.items.push({distance:{history:[],correct:false},displacement:{history:[],correct:false},horizontal:{history:[],correct:false},vertical:{history:[],correct:false}});data.items.forEach(x=>{for(const p of ['distance','displacement','horizontal','vertical'])x[p]??={history:[],correct:false}});let current=0;let worksheet=0;const $=id=>document.getElementById(id);$('student').value=data.student||'';$('student').addEventListener('input',e=>{data.student=e.target.value;save()});function save(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch{alert('Browser storage is unavailable. Download your report before leaving.')}}function num(s){s=String(s).trim().replace(/,/g,'');return s!==''&&Number.isFinite(Number(s))?Number(s):NaN}function calc(s){
+  // Accept handwritten-style equations, units, commas, multiplication symbols and equals signs.
+  // Every side of an equals sign must agree; never simply discard an incorrect RHS.
+  const sides=String(s).trim().replace(/−|–/g,'-').replace(/×|·|x(?=\s*\d)/gi,'*').replace(/÷/g,'/').split('=');
+  if(!sides.length||sides.some(x=>!x.trim()))return NaN;
+  const values=[];
+  for(let side of sides){
+    side=side.replace(/(\d),(?=\d{3}(?:\D|$))/g,'$1').replace(/\b(?:meters?|metres?|kilometers?|kilometres?|km|m)\b/gi,'').replace(/\s/g,'');
+    if(!/^[0-9.+\-*/()]+$/.test(side)||!side)return NaN;
+    try{const v=Function('"use strict";return ('+side+')')();if(!Number.isFinite(v))return NaN;values.push(v)}catch{return NaN}
+  }
+  return values.every(v=>Math.abs(v-values[0])<1e-7)?values[0]:NaN;
+}function close(a,b){return Number.isFinite(a)&&Math.abs(a-b)<Math.max(1e-7,Math.abs(b)*1e-6)}function valid(q,part,value,unit,dir){let factor=unit==='km'?1000:1;let val=calc(String(value))*factor;let target=part==='distance'?q.dist:q.worksheet===1?(part==='horizontal'?Math.abs(q.dx):Math.abs(q.dy)):Math.abs(q.disp);let mag=close(val,target);let sign=q.worksheet===1?(part==='horizontal'?q.dx:q.dy):q.disp;let direction=part==='distance'||sign===0||dir===(sign>0?'positive':'negative');return {ok:mag&&direction,mag,direction}}
+function partsFor(q){if(q.worksheet!==1)return ['distance','displacement'];return q.dx!==0&&q.dy!==0?['distance','horizontal','vertical']:['distance',q.dx!==0?'horizontal':'vertical']}
+function partLabel(p){return ({distance:'Distance',displacement:'Displacement',horizontal:'Horizontal displacement',vertical:'Vertical displacement'})[p]}
+function doneAt(i){return partsFor(questions[i]).every(p=>data.items[i][p].correct)}
+function build(){const q=questions[current];$('worksheet').value=String(worksheet);$('qtitle').textContent=q.worksheet===1?'Question 3'+q.letter:'Question '+(current+1);$('questionNumber').textContent=q.worksheet===1?'3'+q.letter:current+1;$('parts').innerHTML='';for(const p of partsFor(q)){$('parts').insertAdjacentHTML('beforeend',`<section style="border-top:1px solid #526268;margin-top:20px;padding-top:12px"><h3>${partLabel(p)}</h3><div class="cols"><div><label for="${p}value">Final answer</label><input id="${p}value" inputmode="decimal" placeholder="Number"></div><div><label for="${p}unit">Unit</label><select id="${p}unit"><option value="m">meters (m)</option><option value="km">kilometers (km)</option></select></div></div>${p!=='distance'?`<label for="${p}dir">Direction</label><select id="${p}dir">${p==='horizontal'?'<option value="positive">Right / East</option><option value="negative">Left / West</option>':p==='vertical'?'<option value="positive">Up / North</option><option value="negative">Down / South</option>':'<option value="positive">Right / East / North / Forward</option><option value="negative">Left / West / South / Backward</option>'}<option value="zero">No direction (0 displacement)</option></select>`:''}<div class="row" style="margin-top:12px"><button id="${p}check">Check ${partLabel(p).toLowerCase()}</button><span id="${p}count" class="small muted"></span></div><div id="${p}feedback"></div></section>`);const item=data.items[current][p];for(const k of ['value','unit','dir']){let el=$(p+k);if(el&&item[k]!=null)el.value=item[k];if(el)el.addEventListener('input',()=>{item[k]=el.value;save()})}$(p+'check').onclick=()=>check(p);updatePart(p)}const indices=questions.map((q,i)=>(q.worksheet||0)===worksheet?i:-1).filter(i=>i>=0);let at=indices.indexOf(current);$('prev').disabled=at===0;$('next').disabled=at===indices.length-1;$('prev').onclick=()=>{current=indices[at-1];build()};$('next').onclick=()=>{current=indices[at+1];build()};updateNav()}
+function check(p){let q=questions[current],item=data.items[current][p];let value=$(p+'value').value,unit=$(p+'unit').value,dir=$(p+'dir')?.value||'';if(!value.trim()){alert('Enter your final answer before checking.');return}let result=valid(q,p,value,unit,dir);let ok=result.ok;item.history.push({value,unit,dir,ok,time:new Date().toLocaleString()});item.correct=ok;item.value=value;item.unit=unit;item.dir=dir;save();updatePart(p);updateNav()}
+function stepLesson(i,p){
+ const q=questions[i];if(q.worksheet===1){const vectors=q.vectors;const isD=p==='distance';const relevant=p==='horizontal'?0:1;const steps=isD?[
+ ['Identify every movement','Count the length of every arrow, even when the direction changes.'],
+ ['Add all lengths',vectors.map(v=>Math.abs(v[0])+Math.abs(v[1])).join(' + ')+' = '+q.dist+' m.'],
+ ['Write the distance','Total distance = '+q.dist+' m. Direction is not included for distance.']
+ ]:[['Choose positive and negative directions',p==='horizontal'?'Right is positive (+); left is negative (−).':'Up is positive (+); down is negative (−).'],
+ ['Keep movements on this axis',vectors.filter(v=>v[relevant]!==0).map(v=>(v[relevant]>0?'+':'−')+Math.abs(v[relevant])).join(' ')||'No movements on this axis'],
+ ['Combine the signed movements',vectors.map(v=>v[relevant]).filter(v=>v!==0).join(' + ').replace(/\+ -/g,'− ')+' = '+(relevant===0?q.dx:q.dy)+' m.'],
+ ['Interpret the sign',(relevant===0?q.dx:q.dy)===0?'The displacement on this axis is 0 m.':`The result is ${Math.abs(relevant===0?q.dx:q.dy)} m ${relevant===0?(q.dx>0?'right':'left'):(q.dy>0?'up':'down')}.`]];
+ return `<div class="lesson"><div class="lesson-head">Guided solution · ${partLabel(p)}</div><p class="lesson-intro">${isD?'Distance is the total length of every movement.':'Displacement is the overall change in position. Check one axis at a time. For paths in two dimensions, report horizontal and vertical displacement separately.'}</p>${steps.map((st,j)=>`<div class="lesson-step"><div class="step-num">${j+1}</div><div><strong>${st[0]}</strong><p>${st[1]}</p></div></div>`).join('')}<div class="lesson-finish"><strong>Now you try:</strong> Correct your work on paper, then enter your answer again.</div></div>`;}
+ const isD=p==='distance';
+ const intro=isD?'Distance is the entire path traveled. Every section counts, even when someone turns around.':'Displacement is the change from the starting position to the ending position. Direction matters.';
+ const moves=q.moves;
+ const signed=moves.map(v=>(v>=0?'+':'−')+Math.abs(v).toLocaleString()+' m').join('  ');
+ const lengths=moves.map(v=>Math.abs(v).toLocaleString()).join(' + ');
+ let steps=[];
+ if(i===0){steps=isD?[
+ ['Find each section of the path','A → B: 400 + 200 = 600 m. B → C: 200 m. C → D: 400 + 350 = 750 m.'],
+ ['Add the distances','600 + 200 + 750 = 1,550 m.'],
+ ['Include the unit','The total distance is 1,550 m.']]:[
+ ['Find the starting position','The unicorn starts at A, which is 0 m.'],
+ ['Find the ending position','The unicorn finishes at D, which is 350 m to the left of A.'],
+ ['Subtract start from end','−350 − 0 = −350 m. The negative sign means left.'],
+ ['Write the answer with direction','350 m left.']];
+ }else if(i===1){steps=isD?[
+ ['Read the positions','A = −5 m, B = +10 m, and C = −25 m.'],
+ ['Find A to B','10 − (−5) = 15 m.'],
+ ['Find B to C','10 − (−25) = 35 m.'],
+ ['Add both parts','15 + 35 = 50 m.']]:[
+ ['Find the start','A is at −5 m.'],
+ ['Find the finish','C is at −25 m.'],
+ ['Subtract final minus initial','−25 − (−5) = −20 m.'],
+ ['Interpret the sign','The displacement is 20 m left.']];
+ }else if(i===2){steps=isD?[
+ ['List the movements','250 m north and 75 m south.'],['Add the lengths','250 + 75 = 325 m.'],['Include the unit','Distance = 325 m.']]:[
+ ['Choose a positive direction','North is positive, so south is negative.'],['Write signed movements','+250 m and −75 m.'],['Combine them','250 − 75 = +175 m.'],['Interpret the result','Displacement = 175 m north.']];
+ }else if(i===3){steps=isD?[
+ ['Convert to one unit','45 km × 1,000 = 45,000 m.'],['Count both parts of the drive','45,000 m west and 110 m east.'],['Add path lengths','45,000 + 110 = 45,110 m.'],['Write the result','45,110 m (or 45.11 km).']]:[
+ ['Convert to one unit','45 km = 45,000 m.'],['Choose positive east','West = −45,000 m; east = +110 m.'],['Add signed movements','−45,000 + 110 = −44,890 m.'],['Interpret the negative sign','44,890 m west (or 44.89 km west).']];
+ }else if(i===4){steps=isD?[
+ ['Find A to B','From −5 m to +10 m = 15 m.'],['Find B to C','From +10 m to 0 m = 10 m.'],['Find C to D','From 0 m to +5 m = 5 m.'],['Add the path','15 + 10 + 5 = 30 m.']]:[
+ ['Find the starting position','A = −5 m.'],['Find the ending position','D = +5 m.'],['Subtract final minus initial','5 − (−5) = +10 m.'],['State the direction','10 m right.']];
+ }else if(i===5){steps=isD?[
+ ['Identify the path','The sprinter runs a straight 100 m race.'],['Measure the entire path','The distance is 100 m.']]:[
+ ['Locate start and finish','The sprinter finishes 100 m down the straight track.'],['Compare finish to start','They are 100 m apart.'],['Add direction','Displacement = 100 m toward the finish line.']];
+ }else if(i===6){steps=isD?[
+ ['Identify the four sides','8.0 m, 10.5 m, 8.0 m, 10.5 m.'],['Add all four sides','8 + 10.5 + 8 + 10.5 = 37 m.'],['Write the result','Distance = 37 m.']]:[
+ ['Identify the starting point','The teacher begins at one corner.'],['Identify the ending point','After one complete lap, the teacher is at the same corner.'],['Compare start and finish','No change in position means displacement = 0 m.']];
+ }else{steps=isD?[
+ ['Find one lap','One lap is 440 m.'],['Count the laps','The team runs 5 complete laps.'],['Multiply','5 × 440 = 2,200 m.']]:[
+ ['Identify the starting point','The team begins at the starting line.'],['Follow five complete laps','Each complete lap returns to the starting line.'],['Compare start and finish','The final position equals the starting position, so displacement = 0 m.']];}
+ return `<div class="lesson"><div class="lesson-head">📘 Guided solution · ${isD?'Distance':'Displacement'}</div><p class="lesson-intro">${intro}</p>${steps.map((st,j)=>`<div class="lesson-step"><div class="step-num">${j+1}</div><div><strong>${st[0]}</strong><p>${st[1]}</p></div></div>`).join('')}<div class="lesson-finish"><strong>Now you try:</strong> Correct your work on paper, then enter the final answer again. The explanation will stay here to help you.</div></div>`;
+}
+function updatePart(p){let q=questions[current],item=data.items[current][p],h=item.history,wrong=h.filter(x=>!x.ok).length,last=h.at(-1);$(p+'count').textContent=`${h.length} checked attempt${h.length===1?'':'s'} · ${wrong} incorrect`;$(p+'check').disabled=item.correct;let html='';if(last){if(last.ok){html='<div class="feedback good"><strong>✓ Correct!</strong> Your final answer, unit, and direction (when needed) are correct.</div>';}else{let result=valid(q,p,last.value,last.unit,last.dir);let hint=wrong===1?'Remember: distance counts every movement, while displacement depends on the starting and ending positions.':wrong===2?(p==='distance'?'Add the lengths of every arrow. Do not subtract when finding distance.':'Choose positive and negative directions. For horizontal or vertical displacement, include only movement on that axis.'):'You have made three incorrect attempts. Follow the guided solution below, one step at a time.';if(result.mag&&!result.direction)hint='Your number and unit are correct. Recheck the direction.';html=`<div class="feedback"><strong>Not quite — incorrect attempt ${wrong}.</strong><p>${hint}</p></div>`;}}if(wrong>=3)html+=stepLesson(current,p);$(p+'feedback').innerHTML=html;}
+function updateNav(){let complete=questions.filter((q,i)=>doneAt(i)).length;$('nav').innerHTML='';questions.forEach((q,i)=>{if((q.worksheet||0)!==worksheet)return;let done=doneAt(i);let b=document.createElement('button');b.textContent=(done?'✓ ':'')+(q.worksheet===1?'3'+q.letter:i+1);b.className=(i===current?'active ':done?'done ':'outline ');b.onclick=()=>{current=i;build()};$('nav').append(b)});$('progressText').textContent=`${complete} of ${questions.length} complete`;$('progressBar').style.width=(complete/questions.length*100)+'%';$('qstatus').textContent=doneAt(current)?'Completed':'In progress';$('reportStatus').textContent=complete===questions.length?'All questions corrected — completed report available':`Progress report available; completion requires ${questions.length}/${questions.length}`}
+function esc(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function report(){let done=questions.filter((q,i)=>doneAt(i)).length;let html=`<h1>Chem/Phys Self-Checker — Distance vs. Displacement</h1><p><b>Student:</b> ${esc(data.student||'Not entered')} &nbsp; <b>Generated:</b> ${esc(new Date().toLocaleString())}</p><div class="report-status ${done===questions.length?'report-complete':'report-incomplete'}">${done===questions.length?'COMPLETE':'INCOMPLETE'}</div><p><b>Overall progress:</b> ${done}/${questions.length} questions fully corrected</p><p><b>Worksheet 1:</b> ${questions.slice(0,firstCount).filter((q,i)=>doneAt(i)).length}/8 &nbsp; <b>Worksheet 2:</b> ${questions.slice(firstCount).filter((q,i)=>doneAt(firstCount+i)).length}/9</p><p><b>Note:</b> Locally generated record of submitted answers; not tamper-proof.</p>`;questions.forEach((q,i)=>{if(i===0||i===firstCount)html+=`<h2>${i===0?'Worksheet 1 — Exercises: Distance vs. Displacement':'Worksheet 2 — Displacement (Question 3, a–i)'}</h2>`;html+=`<article><h2>${q.worksheet===1?'Question 3'+q.letter:'Question '+(i+1)}</h2>`;for(const p of partsFor(q)){let item=data.items[i][p];html+=`<p><b>${partLabel(p)}</b> — <span class="${item.correct?'correct-text':'incorrect-text'}">${item.correct?'Corrected':'Not yet correct'}</span>; ${item.history.length} attempts; full explanation ${item.history.filter(x=>!x.ok).length>=3?'shown':'not shown'}</p>`;item.history.forEach((a,j)=>{html+=`<p class="${a.ok?'correct-text':'incorrect-text'}">Attempt ${j+1} (${esc(a.time)}): ${esc(a.value)} ${esc(a.unit)} ${p!=='distance'?esc(a.dir):''} — <b>${a.ok?'Correct':'Incorrect'}</b></p>`})}html+='</article>'});$('printArea').innerHTML=html;window.print()}
+$('worksheet').onchange=e=>{worksheet=Number(e.target.value);current=worksheet===0?0:firstCount;build()};$('report').onclick=report;build();
+</script></body></html>
